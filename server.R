@@ -4,7 +4,8 @@ function(input, output) {
         n <- report %>%
             filter(state == "Published") %>%
             nrow()
-        valueBox(n, "Total Number of Packages Published", icon=icon('check-circle'), "light-blue")
+        valueBox(n, "Total Number of Packages Published",
+            icon=icon('check-circle'), "light-blue")
     })
     
     output$published_proactive <- renderValueBox({
@@ -25,7 +26,8 @@ function(input, output) {
         n <- report %>%
             filter(state == "Published", late == 1) %>%
             nrow()
-        valueBox(n, "Number of Packages Published Late", icon=icon('exclamation-circle'), "light-blue")
+        valueBox(n, "Number of Packages Published Late",
+            icon=icon('exclamation-circle'), "light-blue")
     })
     
     output$published_late_proactive <- renderValueBox({
@@ -42,32 +44,16 @@ function(input, output) {
         valueBox(n, "On Request", NULL, "light-blue")
     })
     
-    output$published_table <- renderDataTable(stages_late, rownames = FALSE,
-        options = list(dom = "t"), colnames = c("Stage", "Packages Late"))
-    
-    output$published_plot <- renderPlot({
-        stages_late %>%
-            ggplot(aes(x = stage, y = late)) +
-                geom_col(width = 0.5, fill = "red3") +
-                labs(title = "Lateness in Published Packages", x = "Stage",
-                    y = "Number of Packages Late") +
-                geom_text(aes(label = late),
-                    position = position_stack(vjust = 0.5), size = 8) +
-                theme(plot.title = element_text(hjust = 0.5, size = 20),
-                    axis.title = element_text(size = 15),
-                    axis.text.x = element_text(size = 12),
-                    legend.title = element_text(size = 15),
-                    legend.text = element_text(size = 12),
-                    plot.background = element_rect(fill = "white"),
-                    panel.background = element_rect(fill = "white",
-                        colour = "grey", size = 0.5))
-    })
+    output$published_table <- renderDataTable(stages_late,
+        options = list(dom = "t"), rownames = FALSE,
+            colnames = c("Stage", "Packages Late"))
     
     output$in_progress <- renderValueBox({
         n <- report %>%
             filter(state != "Published") %>%
             nrow()
-        valueBox(n, "Total Number of Packages In Progress", icon=icon('check-circle'), "light-blue")
+        valueBox(n, "Total Number of Packages In Progress", 
+            icon=icon('check-circle'), "light-blue")
     })
     
     output$in_progress_proactive <- renderValueBox({
@@ -88,7 +74,8 @@ function(input, output) {
         n <- report %>%
             filter(state != "Published", late == 1) %>%
             nrow()
-        valueBox(n, "Number of Packages In Progress, Late",icon=icon('exclamation-circle'), "light-blue")
+        valueBox(n, "Number of Packages In Progress, Late",
+            icon=icon('exclamation-circle'), "light-blue")
     })
     
     output$in_progress_late_proactive <- renderValueBox({
@@ -112,7 +99,7 @@ function(input, output) {
                 geom_bar(width = 0.5) +
                 scale_fill_manual(name = "Status",
                     labels = c("On Time", "Late"),
-                    values = c("0" = "olivedrab3", "1" = "red3")) +
+                    values = c("FALSE" = "olivedrab3", "TRUE" = "red3")) +
                 geom_text(stat = "count", aes(label = ..count..),
                     position = position_stack(vjust = 0.5), size = 8) +
                 labs(title = "In Progress Performance", x = "State",
