@@ -9,7 +9,8 @@ dashboardPage (
     dashboardBody(
         
         fluidRow(
-            column(width = 12, offset = 0.5, tags$b("Published Packages",style='font-size:30px;'))
+            column(width = 12, offset = 0.5,
+                tags$b("Published Packages", style = 'font-size:30px;'))
         ),
         
         br(),
@@ -32,7 +33,8 @@ dashboardPage (
         ),
         
         fluidRow(
-            column(width = 12, offset = 0.5, tags$b("In Progress Packages",style='font-size:30px;'))
+            column(width = 12, offset = 0.5,
+                tags$b("In Progress Packages", style = 'font-size:30px;'))
         ),
         
         br(),
@@ -52,6 +54,19 @@ dashboardPage (
         # plot of packages in progress
         fluidRow(
             column(width = 12, offset = 0.5, plotOutput("in_progress_plot"))
+        ),
+        
+        br(),
+        
+        fluidRow(
+            column(width = 12, offset = 0.5,
+                tags$b("Projected Publication Dates", style = 'font-size:30px;'))
+        ),
+        
+        br(),
+        
+        fluidRow(
+            column(width = 12, offset = 0.5, plotOutput("timeplot"))
         ),
         
         br(),
