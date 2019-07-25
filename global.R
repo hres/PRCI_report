@@ -7,7 +7,7 @@ library(DT)
 library(lubridate)
 library(plotly)
 
-report <- read_excel("./data/PRCI_new_data.xlsx", sheet = 1, skip = 5,
+report <- read_excel("./data/PRCI_data.xlsx", sheet = 1, skip = 5,
     na = "N/A") %>%
     filter(!is.na(SCN))
 pipeline <- read_excel("./data/PRCI_pipeline.xlsx", na = "N/A")
