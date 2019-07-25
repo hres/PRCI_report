@@ -10,6 +10,19 @@ dashboardPage (
         
         fluidRow(
             column(width = 12, offset = 0.5,
+                tags$b("Projected Publication Dates", style = 'font-size:30px;'))
+        ),
+        
+        br(),
+        
+        fluidRow(
+            column(width = 12, offset = 0.5, plotlyOutput("timeplot"))
+        ),
+        
+        br(),
+        
+        fluidRow(
+            column(width = 12, offset = 0.5,
                 tags$b("Published Packages", style = 'font-size:30px;'))
         ),
         
@@ -54,19 +67,6 @@ dashboardPage (
         # plot of packages in progress
         fluidRow(
             column(width = 12, offset = 0.5, plotOutput("in_progress_plot"))
-        ),
-        
-        br(),
-        
-        fluidRow(
-            column(width = 12, offset = 0.5,
-                tags$b("Projected Publication Dates", style = 'font-size:30px;'))
-        ),
-        
-        br(),
-        
-        fluidRow(
-            column(width = 12, offset = 0.5, plotOutput("timeplot"))
         ),
         
         br(),

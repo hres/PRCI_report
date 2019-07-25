@@ -5,11 +5,9 @@ library(shinydashboard)
 library(ggplot2)
 library(DT)
 library(lubridate)
+library(plotly)
 
-report <- read_excel("./data/PRCI_data.xlsx", sheet = 1, skip = 5,
-    na = "N/A") %>%
-    filter(!is.na(SCN))
-report_new <- read_excel("./data/PRCI_new_data.xlsx", sheet = 1, skip = 5,
+report <- read_excel("./data/PRCI_new_data.xlsx", sheet = 1, skip = 5,
     na = "N/A") %>%
     filter(!is.na(SCN))
 pipeline <- read_excel("./data/PRCI_pipeline.xlsx", na = "N/A")
@@ -47,7 +45,7 @@ report <- report %>%
         stage == 4 ~ !is.na(.[[15]]) & .[[15]] == 1,
         stage == 5 ~ !is.na(.[[17]]) & .[[17]] == 1,
         TRUE ~ !is.na(.[[11]]) & .[[11]] == 1)),
-    proactive = factor(ifelse(!is.na(.[[27]]) & .[[27]] == "Proactive",
-        1, 0))) %>%
-    select(36, 37, 38, 39) %>%
+    proactive = factor(ifelse(!is.na(`Request origin`) &
+        `Request origin` == "HPFB", 1, 0))) %>%
+    select(stage, state, late, proactive) %>%
     filter(state != "Screening")

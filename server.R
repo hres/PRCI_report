@@ -125,7 +125,7 @@ function(input, output) {
         }
     )
     
-    output$timeplot <- renderPlot({
+    output$timeplot <- renderPlotly({
         
         df <- pipeline
   
@@ -183,7 +183,17 @@ function(input, output) {
                 axis.line.x = element_blank(),
                 legend.position = "bottom"
             )
-            timeline_plot
+          
+        timeline_plotly <- ggplotly(timeline_plot, dynamicTicks = TRUE) %>%
+            layout(xaxis = list(range = c(min(df$Publication, na.rm = TRUE), 
+                min(df$Publication, na.rm = TRUE) + 90)))
+        
+        timeline_plotly <- ggplotly(timeline_plot, dynamicTicks = TRUE) %>%
+            layout(xaxis = list(range = c(as.Date("2019-07-15"), 
+                as.Date("2019-07-20"))))
+      
+        timeline_plotly
+          
     })
     
 }
