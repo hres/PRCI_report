@@ -6,6 +6,7 @@ library(ggplot2)
 library(DT)
 library(lubridate)
 library(plotly)
+library(shiny)
 
 report <- read_excel("./data/PRCI_data.xlsx", sheet = 1, skip = 5,
     na = "N/A") %>%

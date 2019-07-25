@@ -46,7 +46,7 @@ function(input, output) {
     
     output$published_table <- renderDataTable(stages_late,
         options = list(dom = "t"), rownames = FALSE,
-            colnames = c("Stage", "Packages Late"))
+            colnames = c("Stage", "Packages Historically Late"))
     
     output$in_progress <- renderValueBox({
         n <- report %>%
@@ -183,14 +183,8 @@ function(input, output) {
                 axis.line.x = element_blank(),
                 legend.position = "bottom"
             )
-          
-        timeline_plotly <- ggplotly(timeline_plot, dynamicTicks = TRUE) %>%
-            layout(xaxis = list(range = c(min(df$Publication, na.rm = TRUE), 
-                min(df$Publication, na.rm = TRUE) + 90)))
         
-        timeline_plotly <- ggplotly(timeline_plot, dynamicTicks = TRUE) %>%
-            layout(xaxis = list(range = c(as.Date("2019-07-15"), 
-                as.Date("2019-07-20"))))
+        timeline_plotly <- ggplotly(timeline_plot, dynamicTicks = TRUE)
       
         timeline_plotly
           
