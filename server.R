@@ -125,9 +125,10 @@ function(input, output) {
         }
     )
     
-    output$timeplot <- renderPlotly({
+    output$timeplot_old <- renderPlotly({
         
-        df <- pipeline
+        df <- pipeline %>%
+            filter(Publication <= Sys.Date() + 90)
   
         #positions <- c(0.2, -0.2, 0.4, -0.4, 0.5, -0.5, 0.9, -0.9, 1.25, -1.25)
         positions <- c(0.1, -0.1, 0.2, -0.2, 0.3, -0.3, 0.4, -0.4, 0.5, -0.5, 
@@ -167,11 +168,11 @@ function(input, output) {
             geom_hline(yintercept = 0, color = "black", size = 0.3) +
             # Plot vertical segment lines for milestones
             geom_segment(data = df[df$month_count == 1,], aes(y = position,
-                yend = 0, xend = Publication), color = 'black', size = 0.2) +
+                yend = 0, xend = Publication), color = 'black', size = 0.1) +
             geom_point(aes(y = 0), size = 3) +  # Plot scatter points at zero and date
             geom_text(data = month_df, aes(x = month_date_range, y = -0.1,
                 label = month_format), vjust = 0.5, color = 'black', size = 3) +
-            geom_text(aes(y = text_position, label = Product), size = 5)+
+            geom_text(aes(y = text_position, label = Product), size = 3)+
             theme(
                 axis.line.y = element_blank(),
                 axis.text.y = element_blank(),
@@ -184,10 +185,61 @@ function(input, output) {
                 legend.position = "bottom"
             )
         
-        timeline_plotly <- ggplotly(timeline_plot, dynamicTicks = TRUE)
+        timeline_plotly <- ggplotly(timeline_plot, dynamicTicks = TRUE,
+            height = 600)
       
         timeline_plotly
           
+    })
+    
+    output$timeplot <- renderPlotly({
+      
+        min_date <- min(pipeline$Date, na.rm = TRUE)
+        max_date <- max(pipeline$Date, na.rm = TRUE)
+        dates <- seq(min_date, max_date, "months")
+        
+        positions <- c(0.2, -0.2, 0.4, -0.4, 0.6, -0.6, 0.8, -0.8, 1, -1)
+        directions <- c(1, -1)
+  
+        line_pos <- data.frame(
+            "date" = sort(unique(pipeline$Date), na.last = T),
+            "position" = rep(positions,
+                length.out = length(unique(pipeline$Date))),
+            "direction" = rep(directions,
+                length.out = length(unique(pipeline$Date)))
+        )
+  
+        pipeline <- left_join(pipeline, line_pos,
+            by = c('Date' = 'date'))
+        text_offset <- 0.25
+  
+        pipeline$month_count <- ave(
+            pipeline$Date == pipeline$Date, pipeline$Date,
+            FUN = cumsum)
+        pipeline$text_position <-
+            (pipeline$month_count * text_offset * pipeline$direction) +
+            pipeline$position
+        
+        annotations <- list()
+        annotation <- list()
+        for (i in 1:nrow(pipeline)) {
+            r <- runif(1, -250, -50)
+            ay <- ifelse(runif(1, 0, 1) < 0.5, abs(r), r)
+            annotations[[i]] <- list(x = pipeline$Date[i],
+                y = 0, ax = 0, ay = pipeline$text_position[i] * 120,
+                text = pipeline$Products[i], arrowhead = 6)
+        }
+        
+        plot_ly(height = 400) %>%
+            add_trace(uid = "d6088d", mode = "none", name = "Col2",
+                type = "scatter", x = dates, y = rep(0, length(dates)),
+                hoverinfo = "none", showlegend = FALSE) %>%
+            layout(xaxis = list(range = c(min_date - months(1), min_date + months(6))),
+                yaxis = list(type = "linear", range = c(-10, 10),
+                    showgrid = FALSE, showline = FALSE, tickmode = "auto",
+                    zeroline = TRUE, autorange = FALSE, showticklabels = FALSE),
+            autosize = TRUE, annotations = annotations)
+      
     })
     
 }

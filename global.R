@@ -11,7 +11,13 @@ library(shiny)
 report <- read_excel("./data/PRCI_data.xlsx", sheet = 1, skip = 5,
     na = "N/A") %>%
     filter(!is.na(SCN))
-pipeline <- read_excel("./data/PRCI_pipeline.xlsx", na = "N/A")
+
+pipeline <- read_excel("./data/PRCI_pipeline.xlsx", na = "N/A") %>%
+    filter(!is.na(Publication)) %>%
+    arrange(Publication) %>%
+    group_by(Publication) %>%
+    summarise(Products = paste(Product, collapse = "\n"),
+        Date = Publication[1])
 
 report_published <- report %>%
     filter(!is.na(.[[10]]) | !is.na(.[[11]]))

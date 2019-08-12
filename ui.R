@@ -16,7 +16,8 @@ dashboardPage (
         br(),
         
         fluidRow(
-            column(width = 12, offset = 0.5, plotlyOutput("timeplot"))
+            column(width = 12, offset = 0.5, plotlyOutput("timeplot",
+                height = "450px"))
         ),
         
         br(),
