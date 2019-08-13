@@ -17,7 +17,7 @@ dashboardPage (
         
         tabItem('drug',
                 
-        withSpinner(timelineUI('drug_timeline')),
+        timelineUI('drug_timeline'),
         publishedUI('drug_published'),
         
         # plot of packages published
@@ -30,7 +30,7 @@ dashboardPage (
         
         tabItem('device',
                 
-                withSpinner(timelineUI('device_timeline')),
+                timelineUI('device_timeline'),
                 publishedUI('device_published'),
                 
                 inprogressUI('device_inprogress')
