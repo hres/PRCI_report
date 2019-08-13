@@ -17,7 +17,7 @@ dashboardPage (
         
         tabItem('drug',
                 
-        timelineUI('drug_timeline'),
+        withSpinner(timelineUI('drug_timeline')),
         publishedUI('drug_published'),
         
         # plot of packages published
@@ -30,25 +30,11 @@ dashboardPage (
         
         tabItem('device',
                 
-                timelineUI('device_timeline'),
+                withSpinner(timelineUI('device_timeline')),
                 publishedUI('device_published'),
                 
                 inprogressUI('device_inprogress')
                 )
-        ),
-        
-        # input text for print out
-        fluidRow(
-            column(width = 12, offset = 0.5,
-                textInput("narrative", "Narrative", width = "100%")
-            )
-        ),
-        
-        # display download button
-        fluidRow(
-            column(width = 12, align = "center",
-                downloadButton("download", "Download PDF Report")
-            )
         )
         
     )
