@@ -4,8 +4,6 @@ function(input, output) {
     
     pipeline_selected<-reactive({
       
-     
-      
     if(input$tab=='drug'){
         df<-pipeline%>%filter(`Product category`=='Drug')
       }else{
@@ -19,15 +17,11 @@ function(input, output) {
     report_selected<-reactive({
       
       if(input$tab=='drug'){
-
         df<-report%>%filter(`Product type`=='Drug')
-      
       }else{
-        
         df<-report%>%filter(`Product type`=='Device')
       }
      
-      
       return(df)
     })
   
