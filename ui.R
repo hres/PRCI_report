@@ -4,73 +4,38 @@ dashboardPage (
     dashboardHeader(title = paste0("Public Release of Clinical Information  ",
         Sys.Date() - 14, " to ", Sys.Date()), titleWidth = 700),
     
-    dashboardSidebar(disable = TRUE),
+    dashboardSidebar(
+        width=150,
+        sidebarMenu(id='tab',
+            menuItem('Drug',tabName='drug',icon=icon('pills')),
+            menuItem('Medical Device',tabName='device',icon=icon('syringe'))
+        )
+    ),
 
     dashboardBody(
+        tabItems(
         
-        fluidRow(
-            column(width = 12, offset = 0.5,
-                tags$b("Projected Publication Dates", style = 'font-size:30px;'))
-        ),
-        
-        br(),
-        
-        fluidRow(
-            column(width = 12, offset = 0.5, plotlyOutput("timeplot",
-                height = "450px"))
-        ),
-        
-        br(),
-        
-        fluidRow(
-            column(width = 12, offset = 0.5,
-                tags$b("Published Packages", style = 'font-size:30px;'))
-        ),
-        
-        br(),
-        
-        # numbers of packages published
-        fluidRow(
-            valueBoxOutput("published", 6),
-            valueBoxOutput("published_late", 6)
-        ),
-        fluidRow(
-            valueBoxOutput("published_proactive", 3),
-            valueBoxOutput("published_request", 3),
-            valueBoxOutput("published_late_proactive", 3),
-            valueBoxOutput("published_late_request", 3)
-        ),
+        tabItem('drug',
+                
+        timelineUI('drug_timeline'),
+        publishedUI('drug_published'),
         
         # plot of packages published
-        fluidRow(
-            column(width = 6, offset = 3, dataTableOutput("published_table"))
+        # fluidRow(
+        #     column(width = 6, offset = 3, dataTableOutput("published_table"))
+        # ),
+        
+        inprogressUI('drug_inprogress')
         ),
         
-        fluidRow(
-            column(width = 12, offset = 0.5,
-                tags$b("In Progress Packages", style = 'font-size:30px;'))
+        tabItem('device',
+                
+                timelineUI('device_timeline'),
+                publishedUI('device_published'),
+                
+                inprogressUI('device_inprogress')
+                )
         ),
-        
-        br(),
-        
-        # numbers of packages in progress
-        fluidRow(
-            valueBoxOutput("in_progress", 6),
-            valueBoxOutput("in_progress_late", 6)
-        ),
-        fluidRow(
-            valueBoxOutput("in_progress_proactive", 3),
-            valueBoxOutput("in_progress_request", 3),
-            valueBoxOutput("in_progress_late_proactive", 3),
-            valueBoxOutput("in_progress_late_request", 3)
-        ),
-        
-        # plot of packages in progress
-        fluidRow(
-            column(width = 12, offset = 0.5, plotOutput("in_progress_plot"))
-        ),
-        
-        br(),
         
         # input text for print out
         fluidRow(

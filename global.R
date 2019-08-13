@@ -8,6 +8,11 @@ library(lubridate)
 library(plotly)
 library(shiny)
 
+#load modules:
+source('modules/timeline_module.R')
+source('modules/published_package_module.R')
+source('modules/inprogress_module.R')
+
 report <- read_excel("./data/PRCI_data.xlsx", sheet = 1, skip = 5,
     na = "N/A") %>%
     filter(!is.na(SCN))
@@ -15,7 +20,7 @@ report <- read_excel("./data/PRCI_data.xlsx", sheet = 1, skip = 5,
 pipeline <- read_excel("./data/PRCI_pipeline.xlsx", na = "N/A") %>%
     filter(!is.na(Publication)) %>%
     arrange(Publication) %>%
-    group_by(Publication) %>%
+    group_by(Publication,`Product category`) %>%
     summarise(Products = paste(Product, collapse = "\n"),
         Date = Publication[1])
 
@@ -54,5 +59,5 @@ report <- report %>%
         TRUE ~ !is.na(.[[11]]) & .[[11]] == 1)),
     proactive = factor(ifelse(!is.na(`Request origin`) &
         `Request origin` == "HPFB", 1, 0))) %>%
-    select(stage, state, late, proactive) %>%
+    select(stage, state, late, proactive,`Product type`) %>%
     filter(state != "Screening")
