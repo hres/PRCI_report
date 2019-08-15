@@ -8,7 +8,7 @@ timelineUI<-function(id){
         column(width = 12, offset = 0.5, 
                tags$b("Projected Publication Dates", style = 'font-size:30px;'),
                br(),
-               plotlyOutput(ns("timeplot"),height = "450px")) %>% withSpinner()
+               plotlyOutput(ns("timeplot"),height = "450px") %>% withSpinner())
     )
     
 }
