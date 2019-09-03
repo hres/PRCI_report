@@ -7,6 +7,7 @@ library(DT)
 library(lubridate)
 library(plotly)
 library(shiny)
+library(shinycssloaders)
 
 #load modules:
 source('modules/timeline_module.R')
