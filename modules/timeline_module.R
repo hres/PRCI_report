@@ -8,7 +8,9 @@ timelineUI<-function(id){
         column(width = 12, offset = 0.5, 
                tags$b("Projected Publication Dates", style = 'font-size:30px;'),
                br(),
-               plotlyOutput(ns("timeplot"),height = "450px")%>%withSpinner())
+
+               plotlyOutput(ns("timeplot"),height = "450px") %>% withSpinner())
+
     )
     
 }
@@ -51,7 +53,7 @@ timeline_server<-function(input,output,session,pipeline) {
             ay <- ifelse(runif(1, 0, 1) < 0.5, abs(r), r)
             annotations[[i]] <- list(x = pipeline$Date[i],
                                      y = 0, ax = 0, ay = pipeline$text_position[i] * 120,
-                                     text = pipeline$Products[i], arrowhead = 6)
+                                     text = pipeline$Products[i], arrowhead = 6,arrowwidth=0.7,arrowsize=3)
         }
         
         plot_ly(height = 400) %>%

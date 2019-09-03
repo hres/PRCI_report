@@ -35,20 +35,6 @@ dashboardPage (
                 
                 inprogressUI('device_inprogress')
                 )
-        ),
-        
-        # input text for print out
-        fluidRow(
-            column(width = 12, offset = 0.5,
-                textInput("narrative", "Narrative", width = "100%")
-            )
-        ),
-        
-        # display download button
-        fluidRow(
-            column(width = 12, align = "center",
-                downloadButton("download", "Download PDF Report")
-            )
         )
         
     )
